@@ -21,6 +21,7 @@ module.exports = {
 				const botInfoEmbed = new EmbedBuilder()
 				.setColor(config.primaryColor)
 				.setThumbnail(botAvatar)
+                .setTimestamp()
                 .addFields(
                     {
                         name: "Informacje o bocie:",
