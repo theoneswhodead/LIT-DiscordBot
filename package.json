@@ -1,0 +1,11 @@
+{
+  "name": "lit-bot",
+  "version": "1.4.0",
+  "description": "Small discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "NyMek",
+  "license": "ISC"
+}
