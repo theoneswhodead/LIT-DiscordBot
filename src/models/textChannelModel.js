@@ -15,9 +15,9 @@ const textChannelSchema = new Schema({
     messageCount: numDefault,
     emojiSend: numDefault,
     stickerSend: numDefault,
-    timestamps: true
-    
-})
+    },{
+        timestamps: true
+    })
 
 //if(!data === data.now) {
   //  create new document
