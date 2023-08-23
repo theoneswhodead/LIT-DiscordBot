@@ -14,9 +14,9 @@ const numDef = {
 
 const dailyStats = new mongoose.Schema({
     date: {
-        type: Date,
+        type: String,
         required: true,
-        unique: true,
+       // unique: true,
     },
     verificationLevel: numDef ,
     membersCount: numDef ,

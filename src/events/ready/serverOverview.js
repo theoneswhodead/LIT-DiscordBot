@@ -1,13 +1,15 @@
 const serverOverview = require('../../models/serverOverviewModel')
 const schedule = require('node-schedule');
+const formatDate = require('../../functions/formatDate')
 
 module.exports = async (client) => {
 
     try {
-        schedule.scheduleJob('0 0 * * *', async () => {
+        //schedule.scheduleJob('*/10 * * * * *', async () => {
+         schedule.scheduleJob('0 0 * * *', async () => {
             client.guilds.cache.forEach( async (guild) => {
 
-                //const today = new Date()   .toLocaleString("en-US", {timeZone: "Europe/Warsaw"})//.setHours(0, 0, 0, 0);
+                const today = formatDate(new Date())
         
                 const fetchedServerOverview = await serverOverview.findOne({
                     guildId: guild.id,
@@ -23,12 +25,12 @@ module.exports = async (client) => {
                      await serverOverview.findOneAndUpdate(
                         {
                             guildId: guild.id,
-                            'dailyStats.date': { $ne: new Date() }, 
+                            'dailyStats.date': { $ne: today }, 
                         },
                         {
                             $push: {
                                 dailyStats: {
-                                    date: new Date(),
+                                    date: today,
                                     verificationLevel: guild.verificationLevel,
                                     membersCount: guild.memberCount,
                                     textChannelsCount: guild.channels.cache.filter(channel => channel.type === 0).size,
@@ -43,7 +45,7 @@ module.exports = async (client) => {
                         },
                         { new: true } 
                     );
-                } else {
+                } else if(!fetchedServerOverview) {
                     
                     const newServer = new serverOverview({
                         guildId: guild.id,
@@ -51,7 +53,7 @@ module.exports = async (client) => {
                     })
 
                     const newDailyStats = {
-                        date: new Date(),
+                        date: today,
                         verificationLevel: guild.verificationLevel,
                         membersCount: guild.memberCount,
                         textChannelsCount: guild.channels.cache.filter(channel => channel.type === 0).size,
