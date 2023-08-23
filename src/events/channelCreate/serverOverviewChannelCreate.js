@@ -3,6 +3,7 @@ const formatDate = require('../../functions/formatDate')
 
 module.exports = async (client) => {
 
+
     try {
             client.guilds.cache.forEach( async (guild) => {
                 const today = formatDate(new Date())
@@ -10,8 +11,6 @@ module.exports = async (client) => {
                 const fetchedServerOverview = await serverOverview.findOne({
                     guildId: guild.id,
                 })
-
-                console.log(guild.channels.cache.filter(channel => channel.type === 4).size)
 
                 if(fetchedServerOverview) {
 
@@ -22,7 +21,9 @@ module.exports = async (client) => {
                         },
                         {
                             $set: {
-                                'dailyStats.$.verificationLevel': guild.verificationLevel,
+                                'dailyStats.$.textChannelsCount': guild.channels.cache.filter(channel => channel.type === 0).size,
+                                'dailyStats.$.voiceChannelsCount': guild.channels.cache.filter(channel => channel.type === 2).size,
+                                'dailyStats.$.categoryCount': guild.channels.cache.filter(channel => channel.type === 4).size,
                             },
                         },
                         { new: true } 

@@ -10,6 +10,8 @@ module.exports = async (client) => {
                 const fetchedServerOverview = await serverOverview.findOne({
                     guildId: guild.id,
                 })
+                console.log(`guildID `, guild.id )
+                console.log(`guild.verificationLevel `, guild.verificationLevel )
 
                 console.log(guild.channels.cache.filter(channel => channel.type === 4).size)
 
@@ -22,7 +24,7 @@ module.exports = async (client) => {
                         },
                         {
                             $set: {
-                                'dailyStats.$.verificationLevel': guild.verificationLevel,
+                                'dailyStats.$.membersCount': guild.memberCount,
                             },
                         },
                         { new: true } 

@@ -11,8 +11,6 @@ module.exports = async (client) => {
                     guildId: guild.id,
                 })
 
-                console.log(guild.channels.cache.filter(channel => channel.type === 4).size)
-
                 if(fetchedServerOverview) {
 
                     await serverOverview.findOneAndUpdate(
@@ -22,7 +20,9 @@ module.exports = async (client) => {
                         },
                         {
                             $set: {
-                                'dailyStats.$.verificationLevel': guild.verificationLevel,
+                                'dailyStats.$.textChannelsCount': guild.channels.cache.filter(channel => channel.type === 0).size,
+                                'dailyStats.$.voiceChannelsCount': guild.channels.cache.filter(channel => channel.type === 2).size,
+                                'dailyStats.$.categoryCount': guild.channels.cache.filter(channel => channel.type === 4).size,
                             },
                         },
                         { new: true } 
