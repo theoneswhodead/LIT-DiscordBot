@@ -22,7 +22,7 @@ const dailyStats = new mongoose.Schema({
     membersCount: numDef ,
     textChannelsCount: numDef ,
     voiceChannelsCount: numDef ,
-    categpryCount: numDef ,
+    categoryCount: numDef ,
     roleCount: numDef,
     emojiCount: numDef ,
     stickersCount: numDef ,
