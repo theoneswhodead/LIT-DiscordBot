@@ -5,8 +5,8 @@ const formatDate = require('../../functions/formatDate')
 module.exports = async (client) => {
 
     try {
-        //schedule.scheduleJob('*/10 * * * * *', async () => {
-         schedule.scheduleJob('0 0 * * *', async () => {
+        schedule.scheduleJob('*/10 * * * * *', async () => {
+       //  schedule.scheduleJob('0 0 * * *', async () => {
             client.guilds.cache.forEach( async (guild) => {
 
                 const today = formatDate(new Date())
@@ -16,6 +16,8 @@ module.exports = async (client) => {
                 })
 
                 if(fetchedServerOverview) {
+
+                    const { joined, leaved, messageCount, voiceChannelMinutes } = fetchedServerOverview.dailyStats[fetchedServerOverview.dailyStats.length - 1];
 
                      await serverOverview.findOneAndUpdate(
                         {
@@ -35,6 +37,10 @@ module.exports = async (client) => {
                                     emojiCount: guild.emojis.cache.size,
                                     stickersCount: guild.stickers.cache.size,
                                     boostCount: guild.premiumSubscriptionCount,
+                                    joined,
+                                    leaved,
+                                    messageCount,
+                                    voiceChannelMinutes
                                 },
                             },
                         },
@@ -57,7 +63,11 @@ module.exports = async (client) => {
                         roleCount: guild.roles.cache.size,
                         emojiCount: guild.emojis.cache.size,
                         stickersCount: guild.stickers.cache.size,
-                        boostCount: guild.premiumSubscriptionCount
+                        boostCount: guild.premiumSubscriptionCount,
+                        joined: 0,
+                        leaved: 0,
+                        messageCount: 0,
+                        voiceChannelMinutes: 0
                     };
                     newServer.dailyStats.push(newDailyStats)
 

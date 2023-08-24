@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema;
 
-const numReqUniq = {
+const strReqUniq = {
     type: String,
     require: true,
     unique: true, 
@@ -16,7 +16,7 @@ const dailyStats = new mongoose.Schema({
     date: {
         type: String,
         required: true,
-       // unique: true,
+        unique: true,
     },
     verificationLevel: numDef ,
     membersCount: numDef ,
@@ -26,18 +26,28 @@ const dailyStats = new mongoose.Schema({
     roleCount: numDef,
     emojiCount: numDef ,
     stickersCount: numDef ,
-    boostCount: numDef, 
+    boostCount: numDef,
+    joined: numDef,
+    leaved: numDef,
+    messageCount: numDef,
+    voiceChannelMinutes: numDef
 })
 
 
 const serverOverviewSchema = new Schema({
-    guildId: numReqUniq,
+    guildId: strReqUniq,
     dailyStats: [dailyStats] 
     },{
         timestamps: true
     })
 
 module.exports = mongoose.model('serverOverview', serverOverviewSchema);
+
+
+//dołączyło
+//wyszło
+//ilość wiadomości/głosowe czas
+//najaktywniejszy kanał
 
 // wszystkie kanały + = suma wiadomosci na dziem wartość date pole tutaj też dodać!
 // kanały mają własną kolecje dokumentów, każdy kanał ma własny dokument

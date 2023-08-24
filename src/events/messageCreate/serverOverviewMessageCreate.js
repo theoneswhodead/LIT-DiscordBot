@@ -19,11 +19,8 @@ module.exports = async (client) => {
                             'dailyStats.date': today,
                         },
                         {
-                            $set: {
-                                'dailyStats.$.boostCount': guild.premiumSubscriptionCount,
-                            },
                             $inc: {
-                                'dailyStats.$.leaved': 1
+                                'dailyStats.$.messageCount': 1
                             }
                         },
                         { new: true } 
