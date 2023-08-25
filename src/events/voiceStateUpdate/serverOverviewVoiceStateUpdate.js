@@ -12,10 +12,7 @@ module.exports = async (client, oldState, newState) => {
                 guildId: guild.id,
             });
 
-            if (
-                fetchedServerOverview &&
-                (newState.guild.id === guild.id || oldState.guild.id === guild.id)
-            ) {
+            if (fetchedServerOverview && (newState.guild.id === guild.id || oldState.guild.id === guild.id)) {
                 const memberId = newState.member.id;
 
                 if (newState.channel) {

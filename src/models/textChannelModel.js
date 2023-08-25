@@ -7,18 +7,39 @@ const numDefault = {
     default: 0 
 }
 
-const textChannelSchema = new Schema({
-    channelId: {
-        type: Number,
+const strReqUniq = {
+    type: String,
+    require: true,
+    unique: true, 
+}
+
+const dailyTextChannelSchema = new mongoose.Schema({
+    date: {
+        type: String,
         required: true,
+       // unique: true,
     },
     messageCount: numDefault,
     emojiSend: numDefault,
     stickerSend: numDefault,
+})
+
+const textChannelSchema = new mongoose.Schema({
+    channelId: strReqUniq,
+    dailyStats: [dailyTextChannelSchema]
+
+})
+
+const textChannelOverviewSchema = new mongoose.Schema({
+    guildId: strReqUniq,
+    channels: [textChannelSchema]
     },{
         timestamps: true
     })
 
-//if(!data === data.now) {
-  //  create new document
-//}
+
+
+
+module.exports = mongoose.model('textChannelOverview', textChannelOverviewSchema);
+
+
