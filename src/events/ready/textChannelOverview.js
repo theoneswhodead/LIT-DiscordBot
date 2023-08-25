@@ -32,6 +32,7 @@ module.exports = async (client) => {
                                 {
                                     guildId: guild.id,
                                     'channels.channelId': channel.id,
+                                    'channels.dailyStats.date': { $ne: today },
                                 },
                                 {
                                     $push: {
