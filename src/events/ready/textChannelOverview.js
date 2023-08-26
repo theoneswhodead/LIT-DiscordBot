@@ -1,7 +1,6 @@
-const textChannelOverview = require('../../models/textChannelModel');
+const textChannelOverview = require('../../models/textChannelOverviewModel');
 const schedule = require('node-schedule');
 const formatDate = require('../../functions/formatDate');
-
 
 module.exports = async (client) => {
     try {
@@ -128,7 +127,7 @@ module.exports = async (client) => {
                         }
                     }
                     await newServerChannels.save();
-                    console.log(`Kanały serwera o id: ${guildId} zostały zapisane w bazie danych`);
+                    console.log(`Kanały tekstowe serwera o id: ${guildId} zostały zapisane w bazie danych`);
                 }
             }
             return;

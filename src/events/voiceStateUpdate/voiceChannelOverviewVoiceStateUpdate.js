@@ -1,4 +1,4 @@
-const serverOverview = require('../../models/serverOverviewModel');
+const voiceChannelOverview = require('../../models/voiceChannelOverviewModel')
 const formatDate = require('../../functions/formatDate');
 
 const userVoiceStates = {};
@@ -8,11 +8,11 @@ module.exports = async (client, oldState, newState) => {
         client.guilds.cache.forEach(async (guild) => {
             const today = formatDate(new Date());
 
-            const fetchedServerOverview = await serverOverview.findOne({
+            const fetchedVoiceChannelOverview = await voiceChannelOverview.findOne({
                 guildId: guild.id,
             });
 
-            if (fetchedServerOverview && (newState.guild.id === guild.id || oldState.guild.id === guild.id)) {
+            if (fetchedVoiceChannelOverview && (newState.guild.id === guild.id || oldState.guild.id === guild.id)) {
                 const memberId = newState.member.id;
 
                 if (newState.channel) {
@@ -26,29 +26,39 @@ module.exports = async (client, oldState, newState) => {
                     const endTime = Date.now();
                     const timeSpent = endTime - startTime;
 
-                    if (channelId === oldState.channel.id && !newState.member.voice.mute ) { //temporaty
+                    if (channelId === oldState.channel.id && !newState.member.voice.mute) {
                         
-                        await serverOverview.findOneAndUpdate(
+                            
+                       
+                        await voiceChannelOverview.findOneAndUpdate(
                             {
                                 guildId: guild.id,
-                                'dailyStats.date': today,
+                                'channels.channelId': channelId,
+                                'channels.dailyStats.date': today,
                             },
                             {
                                 $inc: {
-                                    'dailyStats.$.voiceChannelMinutes': Math.floor(timeSpent / 60000),
+                                    'channels.$[outer].dailyStats.$[inner].voiceChannelMinutes': Math.floor(timeSpent / 60000),
                                 },
                             },
-                            { new: true }
+                            {
+                                new: true,
+                                arrayFilters: [
+                                    { 'outer.channelId': channelId },
+                                    { 'inner.date': today }
+                                ]
+                            }
                         );
                     }
                     delete userVoiceStates[memberId];
                 }
             } else {
-                console.log('Serwera nie ma w bazie danych lub nie podlega aktualizacji danych');
+                console.log('Serwera nie ma w bazie danych lub nie podlega aktualizacji danych voiceChannelOverview');
                 return;
             }
         });
     } catch (error) {
-        console.log(`Wystąpił błąd podczas zapisu danych do Server Overview: ${error}`);
+        console.log(`Wystąpił błąd podczas zapisu danych do Voice Channel Overview: ${error}`);
     }
 };
+

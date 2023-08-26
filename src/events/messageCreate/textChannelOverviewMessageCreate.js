@@ -1,4 +1,4 @@
-const textChannelOverview = require('../../models/textChannelModel');
+const textChannelOverview = require('../../models/textChannelOverviewModel');
 const formatDate = require('../../functions/formatDate')
 
 module.exports = async (client, message) => {
@@ -22,7 +22,6 @@ module.exports = async (client, message) => {
 
 
                     console.log(channelId);
-                  //  console.log(emojiCount);
 
                     await textChannelOverview.findOneAndUpdate(
                         {
