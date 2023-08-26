@@ -4,7 +4,6 @@ const formatDate = require('../../functions/formatDate')
 module.exports = async (client, message) => {
 
     try {
-            //client.guilds.cache.forEach( async (guild) => {
                 const today = formatDate(new Date())
                 const guildId = message.guild.id
 
@@ -15,7 +14,15 @@ module.exports = async (client, message) => {
                 if(fetchedChannelOverview) {
 
                     const channelId = message.channel.id;
+                    const attachmentCount = message.attachments.size;
+                    const userMentionCount = message.mentions.users.size;
+                    const roleMentionCount = message.mentions.roles.size;
+                    const linkCount = message.content.match(/https?:\/\/[^\s]+/gi)?.length || 0;
+                    const stickerCount = message.stickers.size
+
+
                     console.log(channelId);
+                  //  console.log(emojiCount);
 
                     await textChannelOverview.findOneAndUpdate(
                         {
@@ -25,7 +32,12 @@ module.exports = async (client, message) => {
                         },
                         {
                             $inc: {
-                                'channels.$[outer].dailyStats.$[inner].messageCount': 1
+                                'channels.$[outer].dailyStats.$[inner].messageCount': 1,
+                                'channels.$[outer].dailyStats.$[inner].attachmentCount': attachmentCount,
+                                'channels.$[outer].dailyStats.$[inner].stickerCount': stickerCount,
+                                'channels.$[outer].dailyStats.$[inner].linkCount': linkCount,
+                                'channels.$[outer].dailyStats.$[inner].userMentionCount': userMentionCount,
+                                'channels.$[outer].dailyStats.$[inner].roleMentionCount': roleMentionCount,
                             }
                         },
                         {
@@ -37,42 +49,13 @@ module.exports = async (client, message) => {
                         }
                     );
 
-
-
-
-                    // const
-
-                    // const textChannels = guild.channels.cache.filter(channel => channel.type === 0);
-                    
-                   // textChannels.forEach(async (channel) => {
-                        // const channelData = fetchedChannelOverview.channels.find(ch => ch.channelId === channelId);
-
-                        // if (!channelData) {
-                        //     return;
-                        // }
-
-                    // await textChannelOverview.findOneAndUpdate(
-                    //     {
-                    //         guildId: guildId,
-                    //         'channels.channelId': channelId,
-                    //         'dailyStats.date': today,
-                    //     },
-                    //     {
-                    //         $inc: {
-                    //             'dailyStats.$.messageCount': 1
-                    //         }
-                    //     },
-                    //     { new: true } 
-                    // );
-                  //  });
                 } else {
                     console.log('Serwera nie ma w bazie danych')
                     return;
                 }
-          //  });
             
     } catch (error) {
-        console.log(`Wystąpił błąd podczas zapisu danych do Server Overview`)
+        console.log(`Wystąpił błąd podczas zapisu danych do Text Channel Overview `, error)
     }
  
 }

@@ -16,41 +16,88 @@ module.exports = async (client) => {
 
                 if (fetchedChannelOverview) {
 
-                    const textChannels = client.channels.cache.filter(channel => channel.type === 0);
-                    
+                    const textChannels = guild.channels.cache.filter(channel => channel.type === 0);
+
+
                     textChannels.forEach(async (channel) => {
                         const channelData = fetchedChannelOverview.channels.find(ch => ch.channelId === channel.id);
                         if (!channelData) {
+                            
+                            console.log('nie ma channel data?')
                             return;
                         }
 
-                        const lastStatsIndex = channelData.dailyStats.length - 1;
-                        const { messageCount, emojiSend, stickerSend } = channelData.dailyStats[lastStatsIndex];
+                        const todayStats = channelData.dailyStats.find(stats => stats.date === today);
 
-                        if (!channelData.dailyStats.some(stats => stats.date === today)) {
+                        const { dailyStats } = channelData;
+                        const lastStats = dailyStats[dailyStats.length - 1];
+                        const { messageCount, attachmentCount, stickerCount, linkCount, userMentionCount, roleMentionCount  } = lastStats;
+
+                    //    const test =  await textChannelOverview.findOne({
+                    //         guildId: guildId,
+                    //         'channels.channelId': channel.id,
+                    //          'channels.dailyStats.date': { $ne: today },
+                    //     })
+
+
+                    //     console.log('Test ', test);
+
+
+
+
+
+                        if (!todayStats) {
+                            // await textChannelOverview.findOneAndUpdate(
+                            //     {
+                            //         guildId: guildId,
+                            //         'channels.channelId': channel.id,
+                            //     },
+                            //     {
+                            //         $addToSet: {
+                            //             'channels.$[outer].dailyStats': {
+                            //                 $each: [{
+                            //                     date: today,
+                            //                     messageCount,
+                            //                     emojiSend,
+                            //                     stickerSend,
+                            //                 }],
+                            //             },
+                            //         },
+                            //     },
+                            //     {
+                            //         new: true,
+                            //         arrayFilters: [{ 'outer.channelId': channel.id }],
+                            //     }
+                            // ); // test
+
                             await textChannelOverview.findOneAndUpdate(
                                 {
-                                    guildId: guild.id,
+                                    guildId: guildId,
                                     'channels.channelId': channel.id,
-                                    'channels.dailyStats.date': { $ne: today },
                                 },
                                 {
                                     $push: {
-                                        'channels.$.dailyStats': {
+                                        'channels.$[outer].dailyStats': {
                                             date: today,
-                                            messageCount,
-                                            emojiSend,
-                                            stickerSend,
+                                            messageCount: 0,
+                                            attachmentCount: 0,
+                                            stickerCount: 0,
+                                            linkCount: 0,
+                                            userMentionCount: 0,
+                                            roleMentionCount: 0,
                                         },
                                     },
                                 },
-                                { new: true }
+                                {
+                                    new: true,
+                                    arrayFilters: [{ 'outer.channelId': channel.id }],
+                                }
                             );
-                        }
+        
+                        }              
                     });
 
-
-                    console.log('serwer jest zapisany i czeka na aktualizacje');
+                   // console.log('serwer jest zapisany i czeka na aktualizacje');
                 } else {
                     const newServerChannels = new textChannelOverview({
                         guildId: guildId,
@@ -60,20 +107,21 @@ module.exports = async (client) => {
                     const newDailyStats = {
                         date: today,
                         messageCount: 0,
-                        emojiSend: 0,
-                        stickerSend: 0,
+                        attachmentCount: 0,
+                        stickerCount: 0,
+                        linkCount: 0,
+                        userMentionCount: 0,
+                        roleMentionCount: 0,
                     }
                     for (const [channelId, channel] of guild.channels.cache) {
 
                         const newChannel = {
                             channelId: channelId,
+                            channelName: channel.name,
                             dailyStats: []
                         }
                         
                         if (channel.type === 0) {
-                            i++;
-                            console.log(i);
-
                             
                             newChannel.dailyStats.push(newDailyStats)
                             newServerChannels.channels.push(newChannel)

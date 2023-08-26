@@ -17,7 +17,7 @@ module.exports = async (client) => {
 
                 if(fetchedServerOverview) {
 
-                    const { joined, leaved, messageCount, voiceChannelMinutes } = fetchedServerOverview.dailyStats[fetchedServerOverview.dailyStats.length - 1];
+                   // const { joined, leaved, messageCount, voiceChannelMinutes } = fetchedServerOverview.dailyStats[fetchedServerOverview.dailyStats.length - 1];
 
                      await serverOverview.findOneAndUpdate(
                         {
@@ -37,10 +37,10 @@ module.exports = async (client) => {
                                     emojiCount: guild.emojis.cache.size,
                                     stickersCount: guild.stickers.cache.size,
                                     boostCount: guild.premiumSubscriptionCount,
-                                    joined,
-                                    leaved,
-                                    messageCount,
-                                    voiceChannelMinutes
+                                    joined: 0,
+                                    leaved: 0,
+                                    messageCount: 0,
+                                    voiceChannelMinutes: 0
                                 },
                             },
                         },
@@ -79,7 +79,7 @@ module.exports = async (client) => {
         });
         
     } catch (error) {
-        console.log(`Wystąpił błąd podczas zapisu danych do Server Overview`)
+        console.log(`Wystąpił błąd podczas zapisu danych do Server Overview`,)
     }
  
 }

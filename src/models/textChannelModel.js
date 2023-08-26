@@ -17,15 +17,22 @@ const dailyTextChannelSchema = new mongoose.Schema({
     date: {
         type: String,
         required: true,
-       // unique: true,
     },
     messageCount: numDefault,
-    emojiSend: numDefault,
-    stickerSend: numDefault,
+    attachmentCount: numDefault,
+    stickerCount: numDefault,
+    linkCount: numDefault,
+    userMentionCount: numDefault,
+    roleMentionCount: numDefault,
 })
 
 const textChannelSchema = new mongoose.Schema({
     channelId: strReqUniq,
+    channelName: {
+        type: String,
+        required: true,
+       
+    },
     dailyStats: [dailyTextChannelSchema]
 
 })
@@ -36,9 +43,6 @@ const textChannelOverviewSchema = new mongoose.Schema({
     },{
         timestamps: true
     })
-
-
-
 
 module.exports = mongoose.model('textChannelOverview', textChannelOverviewSchema);
 

@@ -16,7 +16,6 @@ const dailyStats = new mongoose.Schema({
     date: {
         type: String,
         required: true,
-       // unique: true,
     },
     verificationLevel: numDef ,
     membersCount: numDef ,
@@ -42,19 +41,3 @@ const serverOverviewSchema = new Schema({
     })
 
 module.exports = mongoose.model('serverOverview', serverOverviewSchema);
-
-
-//dołączyło
-//wyszło
-//ilość wiadomości/głosowe czas
-//najaktywniejszy kanał
-
-// wszystkie kanały + = suma wiadomosci na dziem wartość date pole tutaj też dodać!
-// kanały mają własną kolecje dokumentów, każdy kanał ma własny dokument
-
-// message.channel.id  pobieranie id i ustawienie do dokumentu jeśli nie ma
-
-//messageCreate event ->  trzeba pobrać kolekcje, znaleźć ten dokument w którym id kanału odpowiada id kanału na którym została wysłana wiadomość i ++,  
-// na evencie messageCreate też lvl bedzie działać,
-
-//
