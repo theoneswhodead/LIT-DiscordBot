@@ -27,7 +27,7 @@ module.exports = async (client, oldState, newState) => {
                     const timeSpent = endTime - startTime;
 
                     if (channelId === oldState.channel.id && !newState.member.voice.mute ) { //temporaty
-                        
+
                         await serverOverview.findOneAndUpdate(
                             {
                                 guildId: guild.id,
@@ -44,7 +44,7 @@ module.exports = async (client, oldState, newState) => {
                     delete userVoiceStates[memberId];
                 }
             } else {
-                console.log('Serwera nie ma w bazie danych lub nie podlega aktualizacji danych');
+                console.log('Serwera nie ma w bazie danych lub nie podlega aktualizacji danych serverOverview');
                 return;
             }
         });

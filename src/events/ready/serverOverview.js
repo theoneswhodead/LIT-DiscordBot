@@ -17,8 +17,6 @@ module.exports = async (client) => {
 
                 if(fetchedServerOverview) {
 
-                   // const { joined, leaved, messageCount, voiceChannelMinutes } = fetchedServerOverview.dailyStats[fetchedServerOverview.dailyStats.length - 1];
-
                      await serverOverview.findOneAndUpdate(
                         {
                             guildId: guild.id,

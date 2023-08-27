@@ -28,46 +28,7 @@ module.exports = async (client) => {
 
                         const todayStats = channelData.dailyStats.find(stats => stats.date === today);
 
-                        const { dailyStats } = channelData;
-                        const lastStats = dailyStats[dailyStats.length - 1];
-                        const { messageCount, attachmentCount, stickerCount, linkCount, userMentionCount, roleMentionCount  } = lastStats;
-
-                    //    const test =  await textChannelOverview.findOne({
-                    //         guildId: guildId,
-                    //         'channels.channelId': channel.id,
-                    //          'channels.dailyStats.date': { $ne: today },
-                    //     })
-
-
-                    //     console.log('Test ', test);
-
-
-
-
-
                         if (!todayStats) {
-                            // await textChannelOverview.findOneAndUpdate(
-                            //     {
-                            //         guildId: guildId,
-                            //         'channels.channelId': channel.id,
-                            //     },
-                            //     {
-                            //         $addToSet: {
-                            //             'channels.$[outer].dailyStats': {
-                            //                 $each: [{
-                            //                     date: today,
-                            //                     messageCount,
-                            //                     emojiSend,
-                            //                     stickerSend,
-                            //                 }],
-                            //             },
-                            //         },
-                            //     },
-                            //     {
-                            //         new: true,
-                            //         arrayFilters: [{ 'outer.channelId': channel.id }],
-                            //     }
-                            // ); // test
 
                             await textChannelOverview.findOneAndUpdate(
                                 {
@@ -95,8 +56,6 @@ module.exports = async (client) => {
         
                         }              
                     });
-
-                   // console.log('serwer jest zapisany i czeka na aktualizacje');
                 } else {
                     const newServerChannels = new textChannelOverview({
                         guildId: guildId,

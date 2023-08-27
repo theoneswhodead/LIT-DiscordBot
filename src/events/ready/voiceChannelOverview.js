@@ -49,8 +49,7 @@ module.exports = async (client) => {
                                     arrayFilters: [{ 'outer.channelId': channel.id }],
                                 }
                             );
-        
-                        }              
+                        }
                     });
                 } else {
                     const newServerChannels = new voiceChannelOverview({
