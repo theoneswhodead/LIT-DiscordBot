@@ -81,24 +81,33 @@ module.exports = async (client) => {
                         warnCount: 0
                     }
 
-                    for (const [userId, user] of guild.members.cache) {
-                      console.log('user ', user.user.username)
-                        const newUser = {
-                            userId: userId,
-                            userName: user.user.username,
-                            dailyStats: [],
-                        };
-                        
-                       newUser.dailyStats.push(newDailyStats)
-                       newServerUsers.users.push(newUser)
+                    async function fetchAndAddMembersToDatabase(guild, newServerUsers, newDailyStats) {
+                        try {
+                            const fetchedMembers = await guild.members.fetch();
+                            const membersArray = fetchedMembers.map(member => member);
+                    
+                            membersArray.forEach(member => {
+                                const newUser = {
+                                    userId: member.user.id,
+                                    userName: member.user.username,
+                                    dailyStats: [], 
+                                };
+                                newUser.dailyStats.push(newDailyStats)
+                                newServerUsers.users.push(newUser)
+                            });
+                    
+                            await newServerUsers.save();
+                            console.log(`Użytkownicy serwera o ID: ${guildId} zostali zapisani w bazie danych`);
+                        } catch (error) {
+                            console.error("Błąd podczas pobierania członków serwera i zapisu do bazy danych:", error);
+                        }
                     }
-
-                    await newServerUsers.save();
-                    console.log(`Użytkownicy serwera o ID: ${guildId} zostali zapisani w bazie danych`);
+                    
+                    await fetchAndAddMembersToDatabase(guild, newServerUsers, newDailyStats);
                 }
             }
             return;
-        });
+         });
     } catch (error) {
         console.log(`Wystąpił błąd podczas zapisu danych do User Overview: ${error}`);
     }
