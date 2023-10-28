@@ -11,7 +11,7 @@ module.exports = async (client, channel) => {
 
         const fetchedVoiceChannelOverview = await voiceChannelOverview.findOne({
             guildId: guildId,
-            'channels.userId': channelId,
+            'channels.channelId': channelId,
         });
 
         if (!fetchedVoiceChannelOverview) {

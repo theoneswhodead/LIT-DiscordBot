@@ -11,7 +11,7 @@ module.exports = async (client, channel) => {
 
         const fetchedTextChannelOverview = await textChannelOverview.findOne({
             guildId: guildId,
-            'channels.userId': channelId,
+            'channels.channelId': channelId,
         });
 
         if (!fetchedTextChannelOverview) {

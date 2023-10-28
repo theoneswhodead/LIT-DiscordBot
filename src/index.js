@@ -20,7 +20,7 @@ eventHandler(client);
 (async () => {
 	try {
 		await mongoose.connect(process.env.MONGO_URI);
-		console.log('Połączono z Bazą Danych');
+		console.log('Połączono z Bazą Danych')
         
 		client.login(process.env.TOKEN);
 	} catch (error) {
