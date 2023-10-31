@@ -1,5 +1,48 @@
 {
     "devs": ["474321545385345024"],
     "createdBy": "NyMek",
-    "primaryColor": "#9e0000"
+    "primaryColor": "#9e0000",
+    "min_xp": 1,
+    "max_xp": 20,
+    "cooldown_xp": 6000,
+
+    "roles": [
+        {
+            "id": "1141408041430949948",
+            "label": "Zielona",
+            "level": 2
+        },
+        {
+            "id": "1141408016571302088",
+            "label": "Niebieska",
+            "level": 3
+        },
+        {
+            "id": "1141407987559301201",
+            "label": "Czerwona",
+            "level": 4
+        },
+        {
+            "id": "1141412169888563385",
+            "label": "Losowa",
+            "level": 5
+        },
+        {
+            "id": "1168604382863052800",
+            "label": "Żółta",
+            "level": 6
+        } 
+    ],
+
+    "roles2": [
+        {
+            "id": "1168921193164836945",
+            "label": "szara",
+            "level": 1
+        }
+ 
+    ]
+
+    
 }
+

@@ -7,7 +7,7 @@ module.exports = async (client, message) => {
                 const today = formatDate(new Date())
                 const guildId = message.guild.id
 
-                const fetchedChannelOverview= await textChannelOverview.findOne({
+                const fetchedChannelOverview = await textChannelOverview.findOne({
                     guildId: guildId,
                 })
 

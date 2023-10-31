@@ -31,7 +31,7 @@ module.exports = {
                     },
                     {
                         name: 'Stworzony:',
-                         value: `Bot **${botName}** został stworzony przez **${config.createdBy}** na potrzeby serwera **GoldLegends** [v1.3]. Zaktualizowany do wersji [v1.4] na potrzeby serwera **Lux In Tenebris**`
+                        value: `Bot **${botName}** został stworzony przez **${config.createdBy}** na potrzeby serwera **GoldLegends** [v1.3]. Zaktualizowany do wersji [v1.4] na potrzeby serwera **Lux In Tenebris**`
                     })
                 .setFooter({ text: `© ${year.getFullYear()} ${interaction.guild.name}`, iconURL: serverAvatar})
                  

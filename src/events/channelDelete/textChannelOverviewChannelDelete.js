@@ -8,14 +8,12 @@ module.exports = async (client, channel) => {
             const guildId = channel.guild.id;
             const channelId = channel.id;
 
-            // Wyszukaj dokument reprezentujący kanał w bazie danych
             const fetchedTextChannelOverview = await textChannelOverview.findOne({
                 guildId: guildId,
                 'channels.channelId': channelId,
             });
 
             if (fetchedTextChannelOverview) {
-                // Usuń kanał z listy kanałów w bazie danych
                 fetchedTextChannelOverview.channels = fetchedTextChannelOverview.channels.filter(
                     (channel) => channel.channelId !== channelId
                 );
